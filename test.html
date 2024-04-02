@@ -66,39 +66,26 @@
 
     <input type="submit" value="Відправити">
 </form>
-
-<!-- Додавання фільтрів -->
-
-<form action="фільтр_факультет.php" method="post">
-    <label for="факультет">Оберіть факультет:</label>
-    <select name="факультет" id="факультет">
-        <option value="Електроніки">Електроніки</option>
-        <option value="Філософії">Філософії</option>
-        <option value="Міжнародний">Міжнародний</option>
-    </select>
-    <input type="submit" value="Застосувати фільтр">
-</form>
-
-<form action="фільтр_дати_часу.php" method="post">
-    <label for="дата">Оберіть дату:</label>
-    <input type="date" id="дата" name="дата">
-    <label for="час">Оберіть час:</label>
-    <input type="time" id="час" name="час">
-    <input type="submit" value="Застосувати фільтр">
-</form>
-
-<form action="фільтр_середнього_балу.php" method="post">
-    <label for="мін_бал">Мінімальний бал:</label>
-    <input type="number" id="мін_бал" name="мін_бал" step="0.1" min="0" max="5" value="3">
-    <label for="макс_бал">Максимальний бал:</label>
-    <input type="number" id="макс_бал" name="макс_бал" step="0.1" min="0" max="5" value="4">
-    <input type="submit" value="Застосувати фільтр">
-</form>
-
-<!-- Кінець додавання фільтрів -->
-
 <script>
   const form = document.getElementById('surveyForm');
+
+const timestamp = Date.now();
+
+form.addEventListener('submit', function(event) {
+    event.preventDefault(); 
+
+    const formData = new FormData(this);
+    const surveyData = {};
+
+    for (const [key, value] of formData.entries()) {
+        surveyData[key] = value;
+    }
+
+    const timestamp = Date.now();
+    const uniqueKey = `surveyData_${timestamp}`;
+
+    localStorage.setItem(uniqueKey, JSON.stringify(surveyData));
+});
 
 form.addEventListener('submit', function(event) {
     event.preventDefault(); // Зупиняємо стандартну поведінку форми
@@ -109,19 +96,25 @@ form.addEventListener('submit', function(event) {
     for (const [key, value] of formData.entries()) {
         surveyData[key] = value;
     }
-
-    // Генеруємо унікальний ідентифікатор на основі часу
-    const timestamp = Date.now();
     const uniqueKey = `surveyData_${timestamp}`;
 
-    // Зберігаємо дані опитування в LocalStorage під унікальним ключем
-    localStorage.setItem(uniqueKey, JSON.stringify(surveyData));
+    if (surveyData.faculty === "Електроніки") {
+        window.location.href = "https://electronics.lnu.edu.ua/";
+    } else if (surveyData.faculty === "Філософії") {
+        window.location.href = "https://filos.lnu.edu.ua/en/department/filosofii";
+    } else if (surveyData.faculty === "Міжнародний") {
+        window.location.href = "https://intrel.lnu.edu.ua/";
+    } else {
+        // Зберігаємо дані опитування в LocalStorage під унікальним ключем
+        localStorage.setItem(uniqueKey, JSON.stringify(surveyData));
 
-    // Очистити форму після відправлення
-    this.reset();
+        // Очистити форму після відправлення
+        this.reset();
 
-    alert('Дякуємо за участь у опитуванні!');
+        alert('Дякуємо за участь у опитуванні!');
+    }
 });
+
 </script>
 
 </body>

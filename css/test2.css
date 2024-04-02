@@ -1,0 +1,35 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+#quiz-container {
+    width: 50%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+#result-container {
+    width: 50%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+#answers {
+    list-style-type: none;
+    padding: 0;
+}
+
+#answers li {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#submit {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #ddd;
+}
